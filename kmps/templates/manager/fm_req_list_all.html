@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row  " style="margin-top: 20px">
+
+{%for req in reqs %}
+  <div class="col  s4 ">
+
+    <div class="card sticky-action" style="height: auto; width: 400px">
+          <div class="card-content">
+        <span class="card-title activator">{{req.title}}<i class="material-icons right">more_vert</i></span>
+        <p>{{req.ammount}}</p>
+        {% if req.status == 0 %}
+        <p>Sent to manager.</p>
+        {% elif req.status == 1 %}
+        <p>Sent to manager.</p>
+        {% elif req.status == 2 %}
+        <p>Forwarded to Finance Department.</p>
+        {% elif req.status == 3 %}
+        <p>Approved.</p>
+        {%endif%}
+      </div>
+      <div class="card-reveal">
+        <span class="card-title">{{req.title}}<i class="material-icons right">close</i></span>
+        <p>{{req.description}}</p>
+        
+      </div>
+      <div class="card-action center">
+            <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('fman_request_view',id=current_user.id,rid=req.rid)}}">View</a>
+            
+       </div>
+    </div>
+  </div>
+
+{% endfor%}
+
+
+</div>
+
+{% endblock %}

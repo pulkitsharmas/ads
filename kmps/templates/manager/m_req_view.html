@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="row" style="margin-top: 50px">
+      <div class="col  offset-s3">
+      <form action="" method="post">
+      <div class="card z-depth-2" style="width: 800px;">
+        <div class="card-content ">
+          <span class="card-title center">{{req.title}}</span>
+          <p>{{req.ammount}} INR</p>
+          {% if req.status == 0 %}
+        <p>Sent to manager.</p>
+        {% elif req.status == 1 %}
+        <p>Sent to manager.</p>
+        {% elif req.status == 2 %}
+        <p>Forwarded to Finance Department.</p>
+        {% elif req.status == 3 %}
+        <p>Approved.</p>
+        {%endif%}
+          <p>{{req.description}}</p>
+          </div>        
+          <div class="card-action center">
+            
+          </div>
+      </form>
+    
+      </div>
+</div>
+
+<div class="row" style="margin-top: 50px">
+      <div class="col  offset-s3">
+      <form action="" method="post">
+      <div class="card z-depth-2" style="width: 800px;">
+        <div class="card-content ">
+          <span class="card-title center">Media</span>
+          <div class="row">
+              {%for i in imgs%}
+            <div class="col  s3">
+          <img class="materialboxed" src="/{{i.doc_url}}" style="width: 100px;height: 100px">
+               </div>
+               {%endfor%}
+             </div>
+        </div>
+          <div class="card-action center">
+            
+          </div>
+      </form>
+    
+      </div>
+
+</div>
+
+{% if comments %}
+<div class="row" style="margin-top: 50px">
+      <div class="col  offset-s3">
+      <form action="" method="post">
+      <div class="card z-depth-2" style="width: 800px;">
+        <div class="card-content ">
+          <span class="card-title center">Comments</span>
+              {%for c in comments%}
+            <p>{{c.comment}}</p>
+               {%endfor%}
+               
+        </div>
+          <div class="card-action center">
+            
+          </div>
+      </form>
+    
+      </div>
+
+</div>
+
+{%endif%}
+
+{% if current_user.type ==2 and (req.status != 3 or req.status != 0) %}
+<div class="row" style="margin-top: 50px">
+      <div class="col  offset-s3">
+      <form action="" method="post">
+      <div class="card z-depth-2" style="width: 800px;">
+        <div class="card-content ">
+          <span class="card-title center">Action</span>
+          What Would you like to do with this request?
+        </div>
+          <div class="card-action center">
+              <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('man_fwd',id=current_user.id,rid=req.rid)}}">Forward</a>
+              <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('man_rjt',id=current_user.id,rid=req.rid)}}">Reject</a>
+          </div>
+      </form>
+    
+      </div>
+
+</div>
+
+{%endif%}
+<script type="text/javascript">
+   $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+        
+</script>
+
+
+{%endblock%}

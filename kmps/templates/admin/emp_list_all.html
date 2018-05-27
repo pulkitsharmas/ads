@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if dept%}
+{% for emp in emps %}
+{%if emp.type != 1%}
+<div class="row " style="margin-top: 50px">
+<div class="col  s4">
+    <div class="card horizontal" style="width: 400px; height: 230px">
+      <div class="card-image" style="padding-left:10px;padding-top: 20px">
+        <img src="../{{emp.profile_url}}" style="width: 100px; height: 100px">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          
+          <span class="card-title">{{emp.name}}</span>
+          {% if emp.type == 1%}
+          <p>Administrator</p>
+          {% elif emp.type == 2 and emp.department.isfin%}
+          <p>Finance Manager</p>
+          {% elif emp.type == 2 %}
+          <p>Manager</p>
+          {% else %}
+     	   <p>Regular Employee</p>
+     	   {% endif %}
+          <p>{{emp.department.name}}</p>
+          <p>{{emp.email}}</p>
+
+        </div>
+        
+        <div class="card-action">
+          <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('employee_edit',id=emp.id)}}">Edit</a>
+          <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('employee_delete',id=emp.id)}}">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endif%}
+{%endfor%}
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large grey darken-3" href="/admin/employees/add">
+    <i class="large material-icons">add</i>
+  </a>
+</div>
+{% else %}
+<div class="row center" style="margin-top: 250px">
+  <h1 class="a">Start by creating departments first...</h1>
+  <a class="waves-effect waves-light btn-large grey darken-3" href="{{url_for('department_add')}}">Create Department</a>
+  </div>
+{%endif%}
+{% endblock%}

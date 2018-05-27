@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="row " style="margin-top: 50px">
+<div class="col  offset-s3">
+    <div class="card horizontal" style="width: 800px; height: 230px">
+      <div class="card-image" style="padding-left:10px;padding-top: 20px">
+        <img  class="materialboxed" src="/{{user.profile_url}}" style="width: 100px; height: 100px">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          
+          <span class="card-title ">{{user.name}}</span>
+          {% if user.type == 1%}
+          <p>Administrator</p>
+          {% elif user.type == 2 and user.department.isfin%}
+          <p>Finance Manager</p>
+          {% elif user.type == 2 %}
+          <p>Manager</p>
+          {% else %}
+         <p>Regular Employee</p>
+         {% endif %}
+          <p>{{user.department.name}}</p>
+          <p>{{user.email}}</p>
+          
+        </div>
+        
+        <div class="card-action">
+          <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('editprofile',id=user.id)}}">Edit</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 50px">
+      <div class="col  offset-s3">
+      <form action="" method="post">
+      <div class="card z-depth-2" style="width: 800px;">
+        <div class="card-content ">
+          <span class="card-title center">Action</span>
+          
+        </div>
+          <div class="card-action center">
+            <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('changepic',id=user.id)}}">Change Profile Picture</a>
+            <a class="waves-effect waves-light btn grey darken-3" href="{{url_for('changepass',id=user.id)}}">Change Password</a>
+          </div>
+      </form>
+    
+      </div>
+
+</div>
+
+<script type="text/javascript">
+   $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+        
+</script>
+
+
+{%endblock%}

@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+            
+  	<style>html,body{height: 100%;margin: 0;padding: 0;}.a{font-weight: 200;}.b{height:30%}</style>
+	</head>
+	<body>
+   
+  <div class="navbar-fixed">
+    <nav style="height: 80px">
+      <div class="nav-wrapper white">
+        <a href="#!" class="black-text brand-logo center"><h1 class="a" style="margin: 0">ЖMPS</h1></a>
+        <ul class="right hide-on-med-and-down">
+          <li class="black-text">Hey! {{current_user.name}}</li>
+          {% if current_user.type == 1 %}
+          <li><a href="/admin/home"><i class="large material-icons black-text">home</i></a></li>
+          {% elif current_user.type == 3%}
+          <li><a href="{{url_for('user_home',id=current_user.id)}}"><i class="large material-icons black-text">home</i></a></li>
+          {% elif current_user.type==2 and not current_user.department.isfin%}
+          <li><a href="{{url_for('manager_home',id=current_user.id)}}"><i class="large material-icons black-text">home</i></a></li>
+          {% else%}
+          <li><a href="{{url_for('fmanager_home',id=current_user.id)}}"><i class="large material-icons black-text">home</i></a></li>
+          {%endif%}
+          <li><a href="{{url_for('myprofile',id=current_user.id)}}"><i class="large material-icons black-text">account_circle</i></a></li>
+          <li><a href="/logout"><i class="large material-icons black-text">exit_to_app</i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  
+  {% block content%}
+  {% endblock %}
+
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for m in messages%}
+        <script type="text/javascript">
+    M.toast({html: '{{m}}', displayLength: 2500})
+  </script>
+        {%endfor%}
+        {% endif %}
+        {% endwith %}
+  
+	</body>
+</html>
